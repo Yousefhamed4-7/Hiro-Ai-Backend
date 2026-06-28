@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import {z} from "zod";
-import { AuthRequest, DecodedToken } from "../../shared/types.js";
-import { config } from "../../config/index.js";
-import { authHeaderSchema } from "../schema/auth.schema.js";
+import { z } from "zod";
+import { AuthRequest, DecodedToken } from "../../shared/types";
+import { config } from "../../config/index";
+import { authHeaderSchema } from "../schema/header.schema";
 
 const authMiddleware = async (
   req: Request,

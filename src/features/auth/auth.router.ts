@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { signup, login, logout, refresh } from "./auth.controller.js";
-import authMiddleware from "../../shared/middlewares/auth.middleware.js";
+import { signup, login, logout, refresh } from "./auth.controller";
+import authMiddleware from "../../shared/middlewares/auth.middleware";
 
 const authRouter = Router();
 

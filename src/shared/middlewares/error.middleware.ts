@@ -3,9 +3,15 @@ import { Request, Response, NextFunction } from "express";
 interface AppError extends Error {
   code?: number;
   errors?: Record<string, { message: string }>;
+  keyValue?: Object;
 }
 
-const errorMiddleware = (err: AppError, req: Request, res: Response, next: NextFunction) => {
+const errorMiddleware = (
+  err: AppError,
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   console.error(err.stack);
 
   if (err.name === "ValidationError" && err.errors) {
@@ -18,11 +24,10 @@ const errorMiddleware = (err: AppError, req: Request, res: Response, next: NextF
   }
 
   if (err.code === 11000) {
-
     return res.status(400).json({
       success: false,
       status: 400,
-      message: "Duplicate key error",
+      message: "Duplicate key error:",
       data: err.message,
     });
   }

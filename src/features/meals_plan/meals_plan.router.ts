@@ -1,8 +1,14 @@
 import { Router } from "express";
 
-import { getAll } from "./meals_plan.controller.js";
+import {
+  getAll,
+  create,
+  update,
+  getOne,
+  destroy,
+} from "./meals_plan.controller";
 
-import authMiddleware from "../../shared/middlewares/auth.middleware.js";
+import authMiddleware from "../../shared/middlewares/auth.middleware";
 
 const mealsPlansRouter = Router();
 
@@ -10,12 +16,12 @@ mealsPlansRouter.use(authMiddleware);
 
 mealsPlansRouter.get("/", getAll);
 
-// mealsPlansRouter.get("/:id");
+mealsPlansRouter.get("/:id", getOne);
 
-// mealsPlansRouter.post("/");
+mealsPlansRouter.post("/", create);
 
-// mealsPlansRouter.delete("/:id");
+mealsPlansRouter.delete("/:id", destroy);
 
-// mealsPlansRouter.put("/:id");
+mealsPlansRouter.put("/:id", update);
 
 export default mealsPlansRouter;

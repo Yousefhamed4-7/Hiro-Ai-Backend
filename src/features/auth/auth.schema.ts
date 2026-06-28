@@ -16,12 +16,6 @@ export const loginSchema = z.object({
   password: z.string().min(1, { message: "Password is required" }),
 });
 
-export const authHeaderSchema = z
-  .string({ message: "Authorization header is required" })
-  .regex(/^Bearer\s+\S+$/, {
-    message: "Invalid authorization format. Expected 'Bearer <token>'",
-  });
-
 export const refreshSchema = z.object({
   refreshToken: z.string().min(1, { message: "Refresh token is required" }),
 });

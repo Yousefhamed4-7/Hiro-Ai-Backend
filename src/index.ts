@@ -4,10 +4,10 @@ import helmet from "helmet";
 import cors from "cors";
 
 // Importing config, Middlewares & Routers
-import { config } from "./config/index.js";
-import authRouter from "./features/auth/auth.router.js";
-import mealsPlansRouter from "./features/meals_plan/meals_plan.router.js";
-import errorMiddleware from "./shared/middlewares/error.middleware.js";
+import { config } from "./config/index";
+import authRouter from "./features/auth/auth.router";
+import mealsPlansRouter from "./features/meals_plan/meals_plan.router";
+import errorMiddleware from "./shared/middlewares/error.middleware";
 
 mongoose
   .connect(config.mongoUri)

@@ -1,11 +1,11 @@
 import type { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import {z} from 'zod'
+import { z } from "zod";
 import bcrypt from "bcrypt";
-import User from "./user.model.js";
-import { signupSchema, loginSchema, refreshSchema } from "./auth.schema.js";
-import { config } from "../../config/index.js";
-import { DecodedToken } from "../../shared/types.js";
+import User from "./user.model";
+import { signupSchema, loginSchema, refreshSchema } from "./auth.schema";
+import { config } from "../../config/index";
+import { DecodedToken } from "../../shared/types";
 
 export const signup = async (
   req: Request,
@@ -44,9 +44,13 @@ export const signup = async (
 
     await newUser.save();
 
-    const accessToken = jwt.sign({ user_id: newUser._id }, config.jwt.accessSecret, {
-      expiresIn: config.jwt.accessExpiresIn,
-    });
+    const accessToken = jwt.sign(
+      { user_id: newUser._id },
+      config.jwt.accessSecret,
+      {
+        expiresIn: config.jwt.accessExpiresIn,
+      },
+    );
 
     const refreshToken = jwt.sign(
       { user_id: newUser._id },
@@ -109,13 +113,21 @@ export const login = async (
       });
     }
 
-    const accessToken = jwt.sign({ user_id: user._id }, config.jwt.accessSecret, {
-      expiresIn: config.jwt.accessExpiresIn,
-    });
+    const accessToken = jwt.sign(
+      { user_id: user._id },
+      config.jwt.accessSecret,
+      {
+        expiresIn: config.jwt.accessExpiresIn,
+      },
+    );
 
-    const refreshToken = jwt.sign({ user_id: user._id }, config.jwt.refreshSecret, {
-      expiresIn: config.jwt.refreshExpiresIn,
-    });
+    const refreshToken = jwt.sign(
+      { user_id: user._id },
+      config.jwt.refreshSecret,
+      {
+        expiresIn: config.jwt.refreshExpiresIn,
+      },
+    );
 
     res.status(200).json({
       success: true,
@@ -181,9 +193,13 @@ export const refresh = async (
       });
     }
 
-    const newAccessToken = jwt.sign({ user_id: user._id }, config.jwt.accessSecret, {
-      expiresIn: config.jwt.accessExpiresIn,
-    });
+    const newAccessToken = jwt.sign(
+      { user_id: user._id },
+      config.jwt.accessSecret,
+      {
+        expiresIn: config.jwt.accessExpiresIn,
+      },
+    );
 
     res.status(200).json({
       success: true,
