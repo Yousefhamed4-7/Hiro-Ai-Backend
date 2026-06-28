@@ -35,8 +35,8 @@ export const mealsPlanSchema = z.object({
           image: z.url().trim().default(""),
         }),
       ),
-      images: z.array(z.url()).default([]),
-      videos: z.array(z.url()).default([]),
+      images: z.array(z.url()).optional().default([]),
+      videos: z.array(z.url()).optional().default([]),
     }),
   ),
 });

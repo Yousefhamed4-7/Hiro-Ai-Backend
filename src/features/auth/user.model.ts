@@ -4,7 +4,8 @@ export interface IUser extends Document {
   username: string;
   email: string;
   password: string;
-  goal_filter: string[];
+  // TODO: remove the empty string after validating the schema with PairAi
+  goal_filter: "LW" | "BM" | "MC" | "RI" | "";
   createdAt: Date;
   updatedAt: Date;
 }
@@ -28,8 +29,9 @@ const userSchema = new Schema<IUser>(
       required: [true, "Password is required"],
     },
     goal_filter: {
-      type: [String],
-      default: [],
+      type: String,
+      enum: ["LW", "BM", "MC", "RI"],
+      default: "",
     },
   },
   {

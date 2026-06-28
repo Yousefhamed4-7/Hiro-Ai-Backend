@@ -7,6 +7,7 @@ import cors from "cors";
 import { config } from "./config/index";
 import authRouter from "./features/auth/auth.router";
 import mealsPlansRouter from "./features/meals_plan/meals_plan.router";
+import workoutPlanRouter from "./features/workout_plan/workout_plan.router";
 import errorMiddleware from "./shared/middlewares/error.middleware";
 
 mongoose
@@ -29,6 +30,7 @@ app.use(cors());
 // Routers
 app.use("/api/v2/auth", authRouter);
 app.use("/api/v2/", mealsPlansRouter);
+app.use("/api/v2/", workoutPlanRouter);
 
 app.get("/health", (_req: Request, res: Response, _next: NextFunction) => {
   res.json({

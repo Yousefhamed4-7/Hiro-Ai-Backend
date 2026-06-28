@@ -1,6 +1,8 @@
 import mongoose, { Schema } from "mongoose";
 import type { Document } from "mongoose";
 
+// TODO: Having Category as its own Document After Verifinig with PairAi
+
 // Interfaces
 export interface IIngrediant extends Document {
   name_en: string;
