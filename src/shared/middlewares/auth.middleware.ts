@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import {z} from "zod";
 import { AuthRequest, DecodedToken } from "../../shared/types.js";
 import { config } from "../../config/index.js";
-import { authHeaderSchema } from "./auth.schema.js";
+import { authHeaderSchema } from "../schema/auth.schema.js";
 
 const authMiddleware = async (
   req: Request,
