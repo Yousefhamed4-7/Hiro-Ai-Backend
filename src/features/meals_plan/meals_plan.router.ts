@@ -7,6 +7,7 @@ import {
   getOne,
   destroy,
   mealCategories,
+  mealSearch,
 } from "./meals_plan.controller";
 
 import authMiddleware from "../../shared/middlewares/auth.middleware";
@@ -28,5 +29,7 @@ mealsPlansRouter.put("/meals-plan/:id", update);
 
 // Endpoint stated inside the Reference
 mealsPlansRouter.get("/meal-categories", mealCategories);
+
+mealsPlansRouter.get("/meal-search", mealSearch);
 
 export default mealsPlansRouter;

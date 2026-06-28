@@ -37,6 +37,35 @@ export const mealsPlanSchema = z.object({
   ),
 });
 
-export const mealsPlanUpdateQuerySchema = z.object({
+// TODO: change it to MP_id
+export const mealsPlanUpdateParameterSchema = z.object({
   id: z.string().trim(),
 });
+
+export const mealSearchQuerySchema = z
+  .object({
+    name: z.string().optional(),
+    category_id: z.string().optional(),
+    page: z.coerce
+      .number()
+      .int()
+      .positive()
+      .gt(0, { message: "Page Number Should be Greater Than Zero" })
+      .default(1),
+    per_page: z.coerce
+      .number()
+      .int()
+      .positive()
+      .gt(0, { message: "Per_Page parameter should be greater than zero" })
+      .default(50),
+  })
+  .refine(
+    (data) => {
+      return !!data.name || data.category_id !== undefined;
+    },
+    {
+      message:
+        "At least one search filter ('name' or 'category_id') must be provided",
+      path: ["name"],
+    },
+  );

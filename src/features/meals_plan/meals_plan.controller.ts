@@ -1,10 +1,12 @@
 import MealPlan from "./meals_plan.model";
 import type { Request, Response, NextFunction } from "express";
+import mongoose from "mongoose";
 import {
+  mealSearchQuerySchema,
   mealsPlanSchema,
-  mealsPlanUpdateQuerySchema,
+  mealsPlanUpdateParameterSchema,
 } from "./meals_plan.schema";
-import { z } from "zod";
+import { any, success, z } from "zod";
 import MealPlanCategory from "./meal_plan_category.model";
 
 export const getAll = async (
@@ -34,7 +36,7 @@ export const getOne = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const parsedId = mealsPlanUpdateQuerySchema.safeParse(req.params);
+  const parsedId = mealsPlanUpdateParameterSchema.safeParse(req.params);
 
   if (!parsedId.success) {
     return res.status(400).json({
@@ -100,7 +102,7 @@ export const update = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const parsedId = mealsPlanUpdateQuerySchema.safeParse(req.params);
+  const parsedId = mealsPlanUpdateParameterSchema.safeParse(req.params);
 
   if (!parsedId.success) {
     return res.status(400).json({
@@ -154,7 +156,7 @@ export const destroy = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const parsedId = mealsPlanUpdateQuerySchema.safeParse(req.params);
+  const parsedId = mealsPlanUpdateParameterSchema.safeParse(req.params);
 
   if (!parsedId.success) {
     return res.status(400).json({
@@ -203,6 +205,72 @@ export const mealCategories = async (
     data: {
       total: categories.length,
       items: categories,
+    },
+  });
+};
+
+export const mealSearch = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const parsedParameter = mealSearchQuerySchema.safeParse(req.query);
+
+  if (!parsedParameter.success) {
+    return res.status(400).json({
+      success: false,
+      status: 400,
+      message: "Validation error",
+      data: z.treeifyError(parsedParameter.error),
+    });
+  }
+
+  const { name, category_id, page, per_page } = parsedParameter.data;
+
+  const filter: any = {};
+
+  if (name) {
+    filter.name = { $regex: name, $options: "i" };
+  }
+
+  if (category_id) {
+    filter.category = mongoose.Types.ObjectId.createFromHexString(category_id);
+  }
+
+  const meals = await MealPlan.aggregate([
+    { $match: filter },
+    { $unwind: "$meals" },
+    { $skip: (page - 1) * per_page },
+    { $limit: per_page },
+    {
+      $replaceRoot: {
+        newRoot: {
+          meal_name: "$meals.meal_name",
+          calories: "$meals.calories",
+          protein_g: "$meals.protein_g",
+          carbs_g: "$meals.carbs_g",
+          fat_g: "$meals.fat_g",
+          images: "$meals.images",
+        },
+      },
+    },
+  ]);
+
+  const count = await MealPlan.find(filter).countDocuments();
+
+  return res.json({
+    success: true,
+    status: 200,
+    message: "Meal Plan fetched successfully",
+    data: {
+      page: page,
+      per_page: per_page,
+      data: {
+        meals: {
+          total: count,
+          items: meals,
+        },
+      },
     },
   });
 };
