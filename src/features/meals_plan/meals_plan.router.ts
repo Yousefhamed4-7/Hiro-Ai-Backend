@@ -6,6 +6,7 @@ import {
   update,
   getOne,
   destroy,
+  mealCategories,
 } from "./meals_plan.controller";
 
 import authMiddleware from "../../shared/middlewares/auth.middleware";
@@ -14,14 +15,18 @@ const mealsPlansRouter = Router();
 
 mealsPlansRouter.use(authMiddleware);
 
-mealsPlansRouter.get("/", getAll);
+// Crud Endpoints
+mealsPlansRouter.get("/meals-plan", getAll);
 
-mealsPlansRouter.get("/:id", getOne);
+mealsPlansRouter.get("/meals-plan/:id", getOne);
 
-mealsPlansRouter.post("/", create);
+mealsPlansRouter.post("/meals-plan", create);
 
-mealsPlansRouter.delete("/:id", destroy);
+mealsPlansRouter.delete("/meals-plan/:id", destroy);
 
-mealsPlansRouter.put("/:id", update);
+mealsPlansRouter.put("/meals-plan/:id", update);
+
+// Endpoint stated inside the Reference
+mealsPlansRouter.get("/meal-categories", mealCategories);
 
 export default mealsPlansRouter;

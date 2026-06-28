@@ -28,7 +28,7 @@ app.use(cors());
 
 // Routers
 app.use("/api/v2/auth", authRouter);
-app.use("/api/v2/meals-plan", mealsPlansRouter);
+app.use("/api/v2/", mealsPlansRouter);
 
 app.get("/health", (_req: Request, res: Response, _next: NextFunction) => {
   res.json({

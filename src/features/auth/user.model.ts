@@ -4,6 +4,7 @@ export interface IUser extends Document {
   username: string;
   email: string;
   password: string;
+  goal_filter: string[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -25,6 +26,10 @@ const userSchema = new Schema<IUser>(
     password: {
       type: String,
       required: [true, "Password is required"],
+    },
+    goal_filter: {
+      type: [String],
+      default: [],
     },
   },
   {

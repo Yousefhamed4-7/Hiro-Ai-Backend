@@ -181,3 +181,21 @@ export const destroy = async (
     next(err);
   }
 };
+
+export const mealCategories = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const categories: any = await MealPlan.find({}).select("category");
+
+  return res.json({
+    sucess: true,
+    status: 200,
+    message: "Meal Categories fetched successfully",
+    data: {
+      total: categories.length,
+      items: categories,
+    },
+  });
+};
