@@ -7,11 +7,7 @@ export const mealsPlanSchema = z.object({
     message: "Please insert a valid goal: LW, BM, MC, RI",
   }),
   target_calories: z.number(),
-  category: z.object({
-    id: z.number(),
-    name_en: z.string().trim(),
-    name_ar: z.string().trim(),
-  }),
+  category: z.string({ message: "Meal Plans Category is Required" }),
   meals: z.array(
     z.object({
       meal_name: z.string().trim(),

@@ -16,11 +16,7 @@ export const workoutPlanSchema = z.object({
   workout_code: z.string().min(1, "Workout code is required"),
   name: z.string().min(1, "Workout plan name is required"),
 
-  category: z.object({
-    id: z.number().int(),
-    name_en: z.string().min(1),
-    name_ar: z.string().min(1),
-  }),
+  category: z.string({ message: "Please provid workout category ID" }),
 
   goal: z.enum(["LW", "BM", "MC", "RI"]),
   difficulty: z.enum(["beginner", "intermediate", "advanced"]),

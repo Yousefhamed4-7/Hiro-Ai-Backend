@@ -5,6 +5,7 @@ import {
   mealsPlanUpdateQuerySchema,
 } from "./meals_plan.schema";
 import { z } from "zod";
+import MealPlanCategory from "./meal_plan_category.model";
 
 export const getAll = async (
   req: Request,
@@ -12,7 +13,10 @@ export const getAll = async (
   next: NextFunction,
 ) => {
   try {
-    const mealPlans = await MealPlan.find({});
+    const mealPlans = await MealPlan.find({}).populate(
+      "category",
+      "name_en name_ar",
+    );
 
     res.json({
       success: true,
@@ -41,7 +45,10 @@ export const getOne = async (
     });
   }
 
-  const mealPlan = await MealPlan.findById(parsedId.data.id);
+  const mealPlan = await MealPlan.findById(parsedId.data.id).populate(
+    "category",
+    "name_en name_ar",
+  );
 
   if (!mealPlan) {
     return res.status(400).json({
@@ -187,7 +194,7 @@ export const mealCategories = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const categories: any = await MealPlan.find({}).select("category");
+  const categories: any = await MealPlanCategory.find({});
 
   return res.json({
     sucess: true,

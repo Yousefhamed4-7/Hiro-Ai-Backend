@@ -5,13 +5,17 @@ import {
   workoutPlanSchema,
 } from "./workout_plan.schema";
 import z from "zod";
+import WorkoutPlanCategory from "./workout_plan_category_model";
 
 export const getAll = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
-  const workoutPlan = await WorkoutPlan.find({});
+  const workoutPlan = await WorkoutPlan.find({}).populate(
+    "category",
+    "name_en name_ar",
+  );
 
   return res.json({
     success: true,
@@ -37,7 +41,9 @@ export const getOne = async (
     });
   }
 
-  const workoutPlan = await WorkoutPlan.findById(workoutPlanId.data.id);
+  const workoutPlan = await WorkoutPlan.findById(
+    workoutPlanId.data.id,
+  ).populate("category", "name_en name_ar");
 
   if (!workoutPlan) {
     return res.status(404).json({
@@ -183,15 +189,38 @@ export const categories = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const workoutPlanCategories = await WorkoutPlan.find().select("category");
+  try {
+    const categoriesWithPlanCount = await WorkoutPlanCategory.aggregate([
+      {
+        $lookup: {
+          from: "workoutplans",
+          localField: "_id",
+          foreignField: "category",
+          as: "plans",
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          name_en: 1,
+          name_ar: 1,
+          description_en: 1,
+          description_ar: 1,
+          plans_count: { $size: "$plans" },
+        },
+      },
+    ]);
 
-  return res.json({
-    success: true,
-    status: 200,
-    message: "Workout Plan Categories fetched successfully",
-    data: {
-      total: workoutPlanCategories.length,
-      items: workoutPlanCategories,
-    },
-  });
+    return res.json({
+      success: true,
+      status: 200,
+      message: "Workout Plan Categories fetched successfully",
+      data: {
+        total: categoriesWithPlanCount.length,
+        items: categoriesWithPlanCount,
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
 };

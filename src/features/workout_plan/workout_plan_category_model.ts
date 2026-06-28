@@ -12,11 +12,23 @@ const workoutPlanCategorySchema = new Schema<IWorkoutPlanCategory>({
   name_en: {
     type: String,
     unique: true,
+    required: [true, "English Workout Plan Category name is required"],
     trim: true,
   },
   name_ar: {
     type: String,
     unique: true,
+    required: [true, "Arabic Workout Plan Category name is required"],
+    trim: true,
+  },
+  description_en: {
+    type: String,
+    required: [true, "English Workout Plan Category description is required"],
+    trim: true,
+  },
+  description_ar: {
+    type: String,
+    required: [true, "Arabic Workout Plan Category description is required"],
     trim: true,
   },
 });

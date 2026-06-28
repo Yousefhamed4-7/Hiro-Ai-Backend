@@ -1,7 +1,9 @@
 import mongoose, { Schema } from "mongoose";
 import type { Document } from "mongoose";
+import { IMealPlanCategory } from "./meal_plan_category.model";
 
 // TODO: Having Category as its own Document After Verifinig with PairAi
+// TODO: MealItem having its own prep_complexity property ex: medium
 
 // Interfaces
 export interface IIngrediant extends Document {
@@ -32,11 +34,7 @@ export interface IMealPlan extends Document {
   name: string;
   goal: "LW" | "BM" | "MC" | "RI";
   target_calories: number;
-  category: {
-    id: number;
-    name_en: string;
-    name_ar: string;
-  };
+  category: IMealPlanCategory;
   meals: IMealItem[];
   images?: string[];
 }
@@ -150,9 +148,9 @@ const mealPlanSchema = new Schema<IMealPlan>(
     },
     target_calories: Number,
     category: {
-      id: Number,
-      name_en: String,
-      name_ar: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "mealPlanCategory",
+      required: [true, "Meal Plan Category is required"],
     },
     meals: [mealItemSchema],
     images: {
