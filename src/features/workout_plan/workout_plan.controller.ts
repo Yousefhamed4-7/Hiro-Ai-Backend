@@ -6,6 +6,7 @@ import {
 } from "./workout_plan.schema";
 import z from "zod";
 import WorkoutPlanCategory from "./workout_plan_category_model";
+import type { WorkoutCategorySummary } from "./workout_plan.types";
 
 export const getAll = async (
   req: Request,
@@ -190,26 +191,27 @@ export const categories = async (
   next: NextFunction,
 ) => {
   try {
-    const categoriesWithPlanCount = await WorkoutPlanCategory.aggregate([
-      {
-        $lookup: {
-          from: "workoutplans",
-          localField: "_id",
-          foreignField: "category",
-          as: "plans",
+    const categoriesWithPlanCount: WorkoutCategorySummary[] =
+      await WorkoutPlanCategory.aggregate<WorkoutCategorySummary>([
+        {
+          $lookup: {
+            from: "workoutplans",
+            localField: "_id",
+            foreignField: "category",
+            as: "plans",
+          },
         },
-      },
-      {
-        $project: {
-          _id: 1,
-          name_en: 1,
-          name_ar: 1,
-          description_en: 1,
-          description_ar: 1,
-          plans_count: { $size: "$plans" },
+        {
+          $project: {
+            _id: 1,
+            name_en: 1,
+            name_ar: 1,
+            description_en: 1,
+            description_ar: 1,
+            plans_count: { $size: "$plans" },
+          },
         },
-      },
-    ]);
+      ]);
 
     return res.json({
       success: true,

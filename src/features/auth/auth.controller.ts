@@ -6,6 +6,7 @@ import User from "./user.model";
 import { signupSchema, loginSchema, refreshSchema } from "./auth.schema";
 import { config } from "../../config/index";
 import { DecodedToken } from "../../shared/types";
+import { LoginInput, RefreshInput, SignupInput } from "./auth.types";
 
 export const signup = async (
   req: Request,
@@ -23,7 +24,9 @@ export const signup = async (
       });
     }
 
-    const { username, email, password } = result.data;
+    const signUpData: SignupInput = result.data;
+
+    const { username, email, password } = signUpData;
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -91,7 +94,9 @@ export const login = async (
       });
     }
 
-    const { email, password } = result.data;
+    const loginData: LoginInput = result.data;
+
+    const { email, password } = loginData;
 
     const user = await User.findOne({ email });
     if (!user) {
@@ -160,7 +165,9 @@ export const refresh = async (
       });
     }
 
-    const { refreshToken } = result.data;
+    const refreshTokenData: RefreshInput = result.data;
+
+    const { refreshToken } = refreshTokenData;
 
     let payload: DecodedToken;
     try {

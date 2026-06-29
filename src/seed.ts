@@ -16,7 +16,6 @@ async function connect(): Promise<void> {
   }
 }
 
-// TODO: Implement
 async function seed(): Promise<void> {
   await connect();
 

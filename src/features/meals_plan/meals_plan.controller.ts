@@ -6,8 +6,11 @@ import {
   mealsPlanSchema,
   mealsPlanUpdateParameterSchema,
 } from "./meals_plan.schema";
-import { any, success, z } from "zod";
-import MealPlanCategory from "./meal_plan_category.model";
+import { z } from "zod";
+import MealPlanCategory, {
+  IMealPlanCategory,
+} from "./meal_plan_category.model";
+import { MealSearchFilter, MealSearchItem } from "./meals_plan.types";
 
 export const getAll = async (
   req: Request,
@@ -196,7 +199,7 @@ export const mealCategories = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const categories: any = await MealPlanCategory.find({});
+  const categories = await MealPlanCategory.find({});
 
   return res.json({
     sucess: true,
@@ -227,7 +230,7 @@ export const mealSearch = async (
 
   const { name, category_id, page, per_page } = parsedParameter.data;
 
-  const filter: any = {};
+  const filter: MealSearchFilter = {};
 
   if (name) {
     filter.name = { $regex: name, $options: "i" };
@@ -237,26 +240,39 @@ export const mealSearch = async (
     filter.category = mongoose.Types.ObjectId.createFromHexString(category_id);
   }
 
-  const meals = await MealPlan.aggregate([
+  const [result] = await MealPlan.aggregate([
     { $match: filter },
-    { $unwind: "$meals" },
-    { $skip: (page - 1) * per_page },
-    { $limit: per_page },
     {
-      $replaceRoot: {
-        newRoot: {
-          meal_name: "$meals.meal_name",
-          calories: "$meals.calories",
-          protein_g: "$meals.protein_g",
-          carbs_g: "$meals.carbs_g",
-          fat_g: "$meals.fat_g",
-          images: "$meals.images",
-        },
+      $facet: {
+        total: [{ $count: "count" }],
+        items: [
+          { $unwind: "$meals" },
+          { $skip: (page - 1) * per_page },
+          { $limit: per_page },
+          {
+            $replaceRoot: {
+              newRoot: {
+                meal_name: "$meals.meal_name",
+                calories: "$meals.calories",
+                protein_g: "$meals.protein_g",
+                carbs_g: "$meals.carbs_g",
+                fat_g: "$meals.fat_g",
+                images: "$meals.images",
+              },
+            },
+          },
+        ],
       },
     },
   ]);
 
-  const count = await MealPlan.find(filter).countDocuments();
+  const total = result?.total?.[0]?.count ?? 0;
+  const meals: MealSearchItem[] = result?.items ?? [];
+
+  // TODO: verify if these values are wanted in the response
+  // const returned_items = meals.length;
+
+  // const totalPages = Math.ceil(total / per_page);
 
   return res.json({
     success: true,
@@ -267,7 +283,7 @@ export const mealSearch = async (
       per_page: per_page,
       data: {
         meals: {
-          total: count,
+          total: total,
           items: meals,
         },
       },
