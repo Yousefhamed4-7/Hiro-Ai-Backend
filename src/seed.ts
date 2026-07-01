@@ -51,11 +51,16 @@ async function seed(): Promise<void> {
             protein_g: 62.0,
             carbs_g: 0.0,
             fat_g: 7.0,
-            image: "https://dev.hiro.pro/uploads/ing/chicken.jpg",
+            image:
+              "https://as2.ftcdn.net/v2/jpg/02/12/64/71/1000_F_212647173_WIbVWFgRzvoE74HzmyugWddOhHcxXQUu.jpg",
           },
         ],
-        images: ["https://dev.hiro.pro/uploads/meals/chickenrice.jpg"],
-        videos: [],
+        images: [
+          "https://as2.ftcdn.net/v2/jpg/02/12/64/71/1000_F_212647173_WIbVWFgRzvoE74HzmyugWddOhHcxXQUu.jpg",
+        ],
+        videos: [
+          "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
+        ],
       },
     ],
   };
@@ -95,12 +100,20 @@ async function seed(): Promise<void> {
         duration_seconds: null,
         rest_seconds: 90,
         notes: "Controlled tempo.",
-        images: ["https://dev.hiro.pro/uploads/ex/bench.jpg"],
-        videos: ["https://dev.hiro.pro/uploads/ex/bench.mp4"],
+        images: [
+          "https://as1.ftcdn.net/v2/jpg/02/26/50/62/1000_F_226506291_imi0vFPQCeAfGGXnqkv3YuvZrJnhrdcP.jpg",
+        ],
+        videos: [
+          "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
+        ],
       },
     ],
-    images: ["https://dev.hiro.pro/uploads/wk/upper.jpg"],
-    videos: [],
+    images: [
+      "https://as1.ftcdn.net/v2/jpg/02/26/50/62/1000_F_226506291_imi0vFPQCeAfGGXnqkv3YuvZrJnhrdcP.jpg",
+    ],
+    videos: [
+      "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
+    ],
   };
 
   const workoutPlan = new WorkoutPlan(workoutPlanData);
@@ -112,7 +125,6 @@ async function seed(): Promise<void> {
   process.exit(0);
 }
 
-// TODO: Implement
 async function clear(): Promise<void> {
   await connect();
 
