@@ -3,7 +3,6 @@ import type { SignOptions } from "jsonwebtoken";
 
 dotenv.config();
 
-// Validate required environment variables before exporting configuration
 const requiredEnvVars = [
   "MONGO_URI",
   "JWT_ACCESS_SECRET",
@@ -11,7 +10,7 @@ const requiredEnvVars = [
   "JWT_REFRESH_SECRET",
   "JWT_REFRESH_EXPIRES_IN",
   "PORT",
-] as const;
+];
 const missingVars = requiredEnvVars.filter((varName) => !process.env[varName]);
 
 if (missingVars.length > 0) {

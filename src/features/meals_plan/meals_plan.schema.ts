@@ -22,7 +22,7 @@ export const mealsPlanSchema = z.object({
           quantity: z
             .number()
             .min(1, { message: "Minimum Quantity should be 1" }),
-          //TODO: could be unit could be an enum
+          //TODO: could the unit -> an enum
           unit: z.string().trim(),
           calories: z.number(),
           protein_g: z.number(),
@@ -35,6 +35,7 @@ export const mealsPlanSchema = z.object({
       videos: z.array(z.url()).optional().default([]),
     }),
   ),
+  images: z.array(z.url()).optional().default([]),
 });
 
 // TODO: change it to MP_id

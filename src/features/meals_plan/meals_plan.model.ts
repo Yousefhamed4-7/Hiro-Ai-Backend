@@ -2,7 +2,6 @@ import mongoose, { Schema } from "mongoose";
 import type { Document } from "mongoose";
 import { IMealPlanCategory } from "./meal_plan_category.model";
 
-// TODO: Having Category as its own Document After Verifinig with PairAi
 // TODO: MealItem having its own prep_complexity property ex: medium
 
 // Interfaces
@@ -50,7 +49,7 @@ const ingredientSchema = new Schema<IIngrediant>(
     },
     name_ar: {
       type: String,
-      required: [true, "Arabiic Ingrediant Name Is Required"],
+      required: [true, "Arabic Ingrediant Name Is Required"],
       trim: true,
       // TODO: check if they should be unqiue
       // unique: true,

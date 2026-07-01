@@ -46,7 +46,7 @@ export const getOne = async (
       success: false,
       status: 400,
       message: "Validation Error",
-      data: z.treeifyError(parsedId.error),
+      errors: z.treeifyError(parsedId.error),
     });
   }
 
@@ -84,7 +84,7 @@ export const create = async (
       success: false,
       status: 400,
       message: "Validation error",
-      data: z.treeifyError(result.error),
+      errors: z.treeifyError(result.error),
     });
   }
 
@@ -112,7 +112,7 @@ export const update = async (
       success: false,
       status: 400,
       messsage: "Validation Error",
-      data: z.treeifyError(parsedId.error),
+      errors: z.treeifyError(parsedId.error),
     });
   }
 
@@ -134,14 +134,14 @@ export const update = async (
       success: false,
       status: 400,
       message: "Validation Error",
-      data: z.treeifyError(parsedMealPlanData.error),
+      errors: z.treeifyError(parsedMealPlanData.error),
     });
   }
 
   try {
-    mealPlan.set(parsedMealPlanData.data);
+    const updatedMealPlan = mealPlan.set(parsedMealPlanData.data);
 
-    const updatedMealPlan = await mealPlan.save();
+    await updatedMealPlan.save();
 
     return res.json({
       success: true,
@@ -166,7 +166,7 @@ export const destroy = async (
       success: false,
       status: 400,
       message: "Validation Error",
-      data: z.treeifyError(parsedId.error),
+      errors: z.treeifyError(parsedId.error),
     });
   }
 
@@ -224,7 +224,7 @@ export const mealSearch = async (
       success: false,
       status: 400,
       message: "Validation error",
-      data: z.treeifyError(parsedParameter.error),
+      errors: z.treeifyError(parsedParameter.error),
     });
   }
 

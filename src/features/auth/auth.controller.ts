@@ -103,18 +103,16 @@ export const login = async (
       return res.status(404).json({
         success: false,
         status: 404,
-        message: "User not found",
-        data: null,
+        message: "Invalid credentials",
       });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).json({
+      return res.status(400).json({
         success: false,
-        status: 401,
+        status: 400,
         message: "Invalid credentials",
-        data: null,
       });
     }
 

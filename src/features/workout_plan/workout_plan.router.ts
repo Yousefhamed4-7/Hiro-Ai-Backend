@@ -16,15 +16,15 @@ const workoutPlanRouter = Router();
 workoutPlanRouter.use(authMiddleware);
 
 // Crud Endpoints
-workoutPlanRouter.get("/workout-plan", getAll);
+workoutPlanRouter.get("/workout-plans", getAll);
 
-workoutPlanRouter.get("/workout-plan/:id", getOne);
+workoutPlanRouter.get("/workout-plans/:id", getOne);
 
-workoutPlanRouter.post("/workout-plan", create);
+workoutPlanRouter.post("/workout-plans", create);
 
-workoutPlanRouter.delete("/workout-plan/:id", destroy);
+workoutPlanRouter.delete("/workout-plans/:id", destroy);
 
-workoutPlanRouter.put("/workout-plan/:id", update);
+workoutPlanRouter.put("/workout-plans/:id", update);
 
 // Endpoint stated inside the Reference
 workoutPlanRouter.get("/categories", categories);

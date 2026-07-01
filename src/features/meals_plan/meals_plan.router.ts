@@ -17,15 +17,15 @@ const mealsPlansRouter = Router();
 mealsPlansRouter.use(authMiddleware);
 
 // Crud Endpoints
-mealsPlansRouter.get("/meals-plan", getAll);
+mealsPlansRouter.get("/meal-plans", getAll);
 
-mealsPlansRouter.get("/meals-plan/:id", getOne);
+mealsPlansRouter.get("/meal-plans/:id", getOne);
 
-mealsPlansRouter.post("/meals-plan", create);
+mealsPlansRouter.post("/meal-plans", create);
 
-mealsPlansRouter.delete("/meals-plan/:id", destroy);
+mealsPlansRouter.delete("/meal-plans/:id", destroy);
 
-mealsPlansRouter.put("/meals-plan/:id", update);
+mealsPlansRouter.put("/meal-plans/:id", update);
 
 // Endpoint stated inside the Reference
 mealsPlansRouter.get("/meal-categories", mealCategories);

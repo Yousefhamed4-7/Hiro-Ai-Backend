@@ -22,10 +22,8 @@ export interface IWorkoutPlan extends Document {
   category: IWorkoutPlanCategory;
   goal: "LW" | "BM" | "MC" | "RI";
   difficulty: "beginner" | "intermediate" | "advanced";
-  //   TODO: dont know if its required or not
-  duration_minutes?: number;
+  duration_minutes: number;
   target_muscle_groups: string[];
-  //   TODO: can be zero?
   estimated_calories: number;
   gender_preference: "male" | "female" | "any";
   description: string;
@@ -33,7 +31,7 @@ export interface IWorkoutPlan extends Document {
   exercises: IExercise[];
   images?: string[];
   videos?: string[];
-  //   TODO: Implement this favourite thingy
+  //   TODO: Implement favourite
   //   favorite_id: 512;
   //   is_favorite: true;
 }

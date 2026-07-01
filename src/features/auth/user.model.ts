@@ -30,7 +30,7 @@ const userSchema = new Schema<IUser>(
     },
     goal_filter: {
       type: String,
-      enum: ["LW", "BM", "MC", "RI"],
+      enum: ["LW", "BM", "MC", "RI", ""],
       default: "",
     },
   },

@@ -38,7 +38,7 @@ export const getOne = async (
       success: false,
       status: 400,
       message: "Validation error",
-      data: z.treeifyError(workoutPlanId.error),
+      errors: z.treeifyError(workoutPlanId.error),
     });
   }
 
@@ -75,7 +75,7 @@ export const create = async (
       success: false,
       status: 400,
       message: "Validation error",
-      data: z.treeifyError(parsedWorkoutPlanData.error),
+      errors: z.treeifyError(parsedWorkoutPlanData.error),
     });
   }
 
@@ -106,7 +106,7 @@ export const update = async (
       success: false,
       status: 400,
       message: "Validation error",
-      data: z.treeifyError(workoutPlanId.error),
+      errors: z.treeifyError(workoutPlanId.error),
     });
   }
 
@@ -117,7 +117,7 @@ export const update = async (
       success: false,
       status: 400,
       message: "Validation error",
-      data: z.treeifyError(parsedWorkoutPlan.error),
+      errors: z.treeifyError(parsedWorkoutPlan.error),
     });
   }
 
@@ -160,7 +160,7 @@ export const destroy = async (
       success: false,
       status: 400,
       message: "Validation Error",
-      data: z.treeifyError(workoutPlanId.error),
+      errors: z.treeifyError(workoutPlanId.error),
     });
   }
 
